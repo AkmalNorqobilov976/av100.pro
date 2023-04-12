@@ -18,25 +18,22 @@ export const useRegisterStore = defineStore('register', {
         register({ login }) {
             return new Promise((resolve, reject) => {
                 register({ login })
-                    .then(response => {
-                        console.log(response);
-                        resolve(good)
+                    .then(() => {
+                        resolve(true);
                     }).catch( error => {
                         this.errors = get(error, 'response.data.errors', []);
                         reject(error);
-                    })
+                    });
             })
         },
         restore({ login }) {
             return new Promise((resolve, reject) => {
                 restore({ login })
-                    .then(response => {
-                        console.log(response);
-                        resolve(true)
+                    .then(() => {
+                        resolve(true);
                     }).catch(error => {
-                        console.log(error);
                         reject(error);
-                    })
+                    });
             })
         }
     }

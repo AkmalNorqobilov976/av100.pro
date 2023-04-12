@@ -3,10 +3,9 @@
 import { computed, ref } from 'vue';
 import Layout from '../components/Layout.vue';
 import { useSigninStore } from '../stores/signinStore';
-import { useToast } from 'primevue/usetoast';
 import { get } from 'lodash';
+import { toast } from 'vue3-toastify';
 
-const toast = useToast();
 const signinPinia = useSigninStore();
 const emailPencilToggle = ref(false);
 const telegramPencilToggle = ref(false);
@@ -47,10 +46,10 @@ const onSave = () => {
     try {
         signinPinia.updateUser(signinPinia.user)
             .then(() => {
-                toast.add({ severity: 'success', detail: 'сохранено', life: 3000 });
+                toast.success('сохранено!');
             })
     } catch (error) {
-        toast.add({ severity: 'error', detail: error.message || get(error, 'data.response.message', 'Ошибка!'), life: 3000 });
+        toast.error(error.message || get(error, 'data.response.message', 'Ошибка!'));
     }
 }
 
@@ -58,7 +57,6 @@ const onSave = () => {
 <template>
     <div id="settings">
         <Layout>
-            <Toast/>
             <h1 class="text-4xl font-bold">Настройки</h1>
             <form @submit.prevent="">
                 <div class="xl:grid xl:grid-cols-3  xl:w-1/2 grid grid-cols-1 align-items-start mt-4">
@@ -288,8 +286,8 @@ const onSave = () => {
                             </div>
                             <div class="flex items-center gap-2 py-2 mt-4">
                                 <Checkbox
-                                    v-model="computedRedirectTarget"
-                                    value="0"
+                                    v-model="signinPinia.user.ignoreavg"
+                                    name="computedRedirectTarget"
                                     inputId="input-58"
                                     :binary="true" 
                                 />

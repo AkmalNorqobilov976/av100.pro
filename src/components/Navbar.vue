@@ -5,6 +5,7 @@ import { useSigninStore } from './../stores/signinStore';
 import { useRegisterStore } from './../stores/registerStore';
 import { removeToken } from '../utils/localStorage'
 import { get } from 'lodash';
+import { toast } from 'vue3-toastify'
 
 const router = useRouter();
 
@@ -76,14 +77,7 @@ const onRegister = () => {
         .then(() => {
         });
     } catch (error) {
-        toast.add({ 
-            severity: 'error', 
-            summary: 'Error Message', 
-            detail: get(error, 'response.data.errors') 
-            || get(error, 'message')
-            || get(), 
-            life: 3000 
-        });
+        toast.error( error.message || get(error, 'response.data.errors', 'Ошибка!'));
     }
 }
 
@@ -111,8 +105,7 @@ const onClearRegisterData = () => {
 </script>
 
 <template>
-    <Toast />
-    <div id="navbar" class="bg-slate-300 p-">
+    <div id="navbar" class="bg-slate-300">
         <nav class="flex items-center justify-between p-2">
             <ol class="list-none flex items-center gap-2">
                 <li v-for="nav, i in navbarLists" :key="i">
@@ -420,13 +413,3 @@ const onClearRegisterData = () => {
         </form>
     </Dialog>
 </template>
-
-<style scoped>
-    .p-menubar-root-list {
-        width: 40vw;
-        display: block;
-    }
-    .p-menubar-button {
-        display: inline;
-    }
-</style>

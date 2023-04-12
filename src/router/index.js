@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
     signinPinia.modalToggle = true;
     next('/');
   }
-  if(signinPinia.user) {
+  if(!signinPinia.user.id && signinPinia.isAuthenticated) {
     signinPinia.getUser({ userId: getUserId() });
   }
   next();

@@ -13,6 +13,7 @@ import "primeicons/primeicons.css"
 import 'nprogress/nprogress.css'
 
 import './assets/main.css'
+import 'vue3-toastify/dist/index.css';
 
 const app = createApp(App)
 registrPrimeComponents(app)

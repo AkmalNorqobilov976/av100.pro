@@ -100,7 +100,7 @@ export const useSigninStore = defineStore('signin', {
             return new Promise((resolve, reject) => {
                 signin({ login, password })
                     .then((response) => {
-                        setToken(get(response.data, 'token', ''))
+                        setToken(get(response.data, 'token', ''));
                         setUserId(get(response.data, 'user.id'));
                         
                         this.token = get(response.data, 'token', '');
@@ -108,10 +108,15 @@ export const useSigninStore = defineStore('signin', {
                         
                         this.modalToggle = false;
 
-                        resolve(true)
+                        this.getUser({ userId: this.user.id })
+                        .then(() => {
+                            resolve(true);
+                        }).catch(error => {
+                            reject(error);
+                        })
                     }).catch(error => {
                         this.errors = get(error, 'response.data.errors', []);
-                        reject(error)
+                        reject(error);
                     });
             })
         },
@@ -120,7 +125,7 @@ export const useSigninStore = defineStore('signin', {
                 getUserById({ userId })
                     .then(response => {
                         this.user = response.data;
-                        resolve(true)
+                        resolve(true);
                     }).catch(error => {
                         reject(error);
                     })
@@ -195,11 +200,11 @@ export const useSigninStore = defineStore('signin', {
                     redirecttarget,
                     lentacolortype
                 })
-                    .then(response => {
+                    .then(() => {
                         resolve(true);
                     }).catch(error => {
-                        reject(error)
-                    })
+                        reject(error);
+                    });
             })
         }
     }
